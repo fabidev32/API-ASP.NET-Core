@@ -1,5 +1,4 @@
 ﻿using API_Trabalho_Pratico;
-using API_Trabalho_Pratico;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

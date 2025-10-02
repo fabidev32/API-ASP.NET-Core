@@ -1,5 +1,4 @@
-﻿using API;
-using API_Trabalho_Pratico; 
+﻿using API_Trabalho_Pratico;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
