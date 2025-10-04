@@ -1,6 +1,4 @@
-﻿using API_Trabalho_Pratico;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace API_Trabalho_Pratico
 {
@@ -21,6 +19,15 @@ namespace API_Trabalho_Pratico
                 optionsBuilder.UseSqlServer(
                     @"Server=ELIANA\SQLEXPRESS;Database=LocadoraDB;Trusted_Connection=True;TrustServerCertificate=True");
             }
+        }
+
+        //garante que o funcionário seja único
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Funcionario>()
+                .HasIndex(f => f.CPF)
+                .IsUnique();
         }
     }
 }

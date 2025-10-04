@@ -1,194 +1,200 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using API_Trabalho_Pratico;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace API_Trabalho_Pratico
+namespace API.Controllers
 {
-    public class Fabricante
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AlugueisController : ControllerBase
     {
-        [Key]
-        public int Id { get; set; }
+        private readonly LocadoraDB _context;
 
-        [Required(ErrorMessage = "O nome do fabricante é obrigatório.")]
-        [StringLength(100, ErrorMessage = "O nome do fabricante não pode ter mais que 100 caracteres.")]
-        public string Nome { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public ICollection<Veiculo>? Veiculos { get; set; }
-    }
-
-    public class Veiculo
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "O modelo do veículo é obrigatório.")]
-        [StringLength(100, ErrorMessage = "O modelo do veículo não pode ter mais que 100 caracteres.")]
-        public string Modelo { get; set; } = string.Empty;
-
-        [Range(1886, 2100, ErrorMessage = "O ano deve estar entre 1886 e 2100.")] // 1886 = ano do 1º carro moderno
-        public int Ano { get; set; }
-
-        [Range(0, double.MaxValue, ErrorMessage = "A quilometragem deve ser maior ou igual a zero.")]
-        public double Quilometragem { get; set; }
-
-        [Required(ErrorMessage = "O fabricante é obrigatório.")]
-        public int FabricanteId { get; set; }
-
-        [ForeignKey(nameof(FabricanteId))]
-        public Fabricante? Fabricante { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Aluguel>? Alugueis { get; set; }
-    }
-
-    public class Cliente
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "O nome do cliente é obrigatório.")]
-        [StringLength(100, ErrorMessage = "O nome do cliente não pode ter mais que 100 caracteres.")]
-        public string Nome { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O CPF é obrigatório.")]
-        [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve conter exatamente 11 caracteres.")]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "O CPF deve conter apenas números.")]
-        public string CPF { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O e-mail é obrigatório.")]
-        [EmailAddress(ErrorMessage = "O e-mail não é válido.")]
-        public string Email { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public ICollection<Aluguel>? Alugueis { get; set; }
-    }
-
-    public class Funcionario
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "O nome do funcionário é obrigatório.")]
-        [StringLength(100, ErrorMessage = "O nome do funcionário não pode ter mais que 100 caracteres.")]
-        public string Nome { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O cargo do funcionário é obrigatório.")]
-        [StringLength(50, ErrorMessage = "O cargo não pode ter mais que 50 caracteres.")]
-        public string Cargo { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O e-mail é obrigatório.")]
-        [EmailAddress(ErrorMessage = "O e-mail não é válido.")]
-        public string Email { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public ICollection<Aluguel>? AlugueisRegistrados { get; set; }
-    }
-
-    public class Aluguel
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "O cliente é obrigatório.")]
-        public int ClienteId { get; set; }
-
-        [Required(ErrorMessage = "O veículo é obrigatório.")]
-        public int VeiculoId { get; set; }
-
-        [Required(ErrorMessage = "O funcionário é obrigatório.")]
-        public int FuncionarioId { get; set; }
-
-        [ForeignKey(nameof(ClienteId))]
-        public Cliente? Cliente { get; set; }
-
-        [ForeignKey(nameof(VeiculoId))]
-        public Veiculo? Veiculo { get; set; }
-
-        [ForeignKey(nameof(FuncionarioId))]
-        public Funcionario? Funcionario { get; set; }
-
-        [Required(ErrorMessage = "A data de início é obrigatória.")]
-        public DateTime DataInicio { get; set; }
-
-        [Required(ErrorMessage = "A data de fim é obrigatória.")]
-        [DateGreaterThan("DataInicio", ErrorMessage = "A data de fim deve ser maior ou igual à data de início.")]
-        public DateTime DataFim { get; set; }
-
-        public DateTime? DataDevolucao { get; set; }
-
-        [Range(0, double.MaxValue, ErrorMessage = "A quilometragem inicial deve ser maior ou igual a zero.")]
-        public double KmInicial { get; set; }
-
-        [Range(0, double.MaxValue, ErrorMessage = "A quilometragem final deve ser maior ou igual a zero.")]
-        [GreaterThanOrEqualTo("KmInicial", ErrorMessage = "A quilometragem final deve ser maior ou igual à inicial.")]
-        public double KmFinal { get; set; }
-
-        [Range(0.01, double.MaxValue, ErrorMessage = "O valor da diária deve ser maior que zero.")]
-        public decimal ValorDiaria { get; set; }
-
-        [Range(0.01, double.MaxValue, ErrorMessage = "O valor total deve ser maior que zero.")]
-        public decimal ValorTotal { get; set; }
-    }
-
-    // Validação customizada para DataFim > DataInicio
-    public class DateGreaterThanAttribute : ValidationAttribute
-    {
-        private readonly string _comparisonProperty;
-
-        public DateGreaterThanAttribute(string comparisonProperty)
+        public AlugueisController(LocadoraDB context)
         {
-            _comparisonProperty = comparisonProperty;
+            _context = context;
         }
 
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        // GET: api/Alugueis
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Aluguel>>> GetAlugueis()
         {
-            var currentValue = (DateTime?)value;
-
-            var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
-            if (property == null)
-                return new ValidationResult($"Propriedade desconhecida: {_comparisonProperty}");
-
-            var comparisonValue = (DateTime?)property.GetValue(validationContext.ObjectInstance);
-
-            if (currentValue != null && comparisonValue != null && currentValue < comparisonValue)
+            try
             {
-                return new ValidationResult(ErrorMessage);
+                var alugueis = await _context.Alugueis
+                    .Include(a => a.Cliente)
+                    .Include(a => a.Veiculo)
+                    .Include(a => a.Funcionario)
+                    .ToListAsync();
+
+                return Ok(alugueis);
             }
-
-            return ValidationResult.Success;
-        }
-    }
-
-    // Validação customizada para KmFinal >= KmInicial
-    public class GreaterThanOrEqualToAttribute : ValidationAttribute
-    {
-        private readonly string _comparisonProperty;
-
-        public GreaterThanOrEqualToAttribute(string comparisonProperty)
-        {
-            _comparisonProperty = comparisonProperty;
-        }
-
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
-        {
-            if (value == null)
-                return ValidationResult.Success;
-
-            var currentValue = Convert.ToDouble(value);
-
-            var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
-            if (property == null)
-                return new ValidationResult($"Propriedade desconhecida: {_comparisonProperty}");
-
-            var comparisonValue = Convert.ToDouble(property.GetValue(validationContext.ObjectInstance));
-
-            if (currentValue < comparisonValue)
+            catch (Exception ex)
             {
-                return new ValidationResult(ErrorMessage);
+                return StatusCode(500, $"Erro ao buscar alugueis: {ex.Message}");
             }
-
-            return ValidationResult.Success;
         }
+
+        // GET: api/Alugueis/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Aluguel>> GetAluguel(int id)
+        {
+            try
+            {
+                var aluguel = await _context.Alugueis
+                    .Include(a => a.Cliente)
+                    .Include(a => a.Veiculo)
+                    .Include(a => a.Funcionario)
+                    .FirstOrDefaultAsync(a => a.Id == id);
+
+                if (aluguel == null)
+                    return NotFound("Aluguel não encontrado.");
+
+                return Ok(aluguel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao buscar aluguel: {ex.Message}");
+            }
+        }
+
+        // POST: api/Alugueis
+        [HttpPost]
+        public async Task<ActionResult<Aluguel>> PostAluguel(Aluguel aluguel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                // Verifica se o veículo já está alugado nesse período
+                bool conflito = await _context.Alugueis.AnyAsync(a =>
+                    a.VeiculoId == aluguel.VeiculoId &&
+                    a.DataFim >= aluguel.DataInicio &&
+                    a.DataInicio <= aluguel.DataFim);
+
+                if (conflito)
+                    return Conflict("Este veículo já está alugado nesse período.");
+
+                // Cálculo automático (opcional)
+                var dias = (aluguel.DataFim - aluguel.DataInicio).TotalDays;
+                if (dias > 0)
+                    aluguel.ValorTotal = aluguel.ValorDiaria * (decimal)dias;
+
+                _context.Alugueis.Add(aluguel);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetAluguel), new { id = aluguel.Id }, aluguel);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Erro ao salvar no banco de dados: {dbEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro inesperado: {ex.Message}");
+            }
+        }
+
+        // PUT: api/Alugueis/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAluguel(int id, Aluguel aluguel)
+        {
+            if (id != aluguel.Id)
+                return BadRequest("O ID informado não corresponde ao aluguel.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var aluguelExistente = await _context.Alugueis.FindAsync(id);
+                if (aluguelExistente == null)
+                    return NotFound("Aluguel não encontrado.");
+
+                // Verifica conflito com outros aluguéis
+                bool conflito = await _context.Alugueis.AnyAsync(a =>
+                    a.VeiculoId == aluguel.VeiculoId &&
+                    a.Id != id &&
+                    a.DataFim >= aluguel.DataInicio &&
+                    a.DataInicio <= aluguel.DataFim);
+
+                if (conflito)
+                    return Conflict("Este veículo já está alugado nesse período.");
+
+                // Atualiza valores
+                _context.Entry(aluguelExistente).CurrentValues.SetValues(aluguel);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao atualizar aluguel: {ex.Message}");
+            }
+        }
+
+        // DELETE: api/Alugueis/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAluguel(int id)
+        {
+            try
+            {
+                var aluguel = await _context.Alugueis.FindAsync(id);
+                if (aluguel == null)
+                    return NotFound("Aluguel não encontrado.");
+
+                _context.Alugueis.Remove(aluguel);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao excluir aluguel: {ex.Message}");
+            }
+        }
+
+        // GET: api/alugueis/detalhes -> alugueis detalhados com cliente e veículo
+        [HttpGet("detalhes")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAlugueisDetalhados()
+        {
+            var alugueis = await _context.Alugueis
+                .Include(a => a.Cliente)
+                .Include(a => a.Veiculo)
+                .Select(a => new
+                {
+                    Cliente = a.Cliente.Nome,
+                    Veiculo = a.Veiculo.Modelo,
+                    a.DataInicio,
+                    a.DataFim
+                })
+                .ToListAsync();
+
+            return Ok(alugueis);
+        }
+
+        // GET: api/alugueis/filtro?cliente=Maria&inicio=2024-01-01&fim=2024-12-31 => alugueis por cliente e intervalo de datas
+        [HttpGet("filtro")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAlugueisPorPeriodo(
+            [FromQuery] string cliente, [FromQuery] DateTime inicio, [FromQuery] DateTime fim)
+        {
+            var alugueis = await _context.Alugueis
+                .Include(a => a.Cliente)
+                .Include(a => a.Veiculo)
+                .Where(a => a.Cliente.Nome.Contains(cliente) && a.DataInicio >= inicio && a.DataFim <= fim)
+                .Select(a => new
+                {
+                    Cliente = a.Cliente.Nome,
+                    Veiculo = a.Veiculo.Modelo,
+                    a.DataInicio,
+                    a.DataFim
+                })
+                .ToListAsync();
+
+            return Ok(alugueis);
+        }
+
+
     }
 }
