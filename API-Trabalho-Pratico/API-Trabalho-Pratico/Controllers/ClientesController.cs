@@ -15,7 +15,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Clientes
+        /// <summary>
+        /// Retorna todos os clientes cadastrados.
+        /// </summary>
+        /// <returns>Lista de clientes</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
+        /// <response code="500">Erro interno ao buscar clientes</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
@@ -30,7 +35,14 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/Clientes/{id}
+        /// <summary>
+        /// Retorna um cliente específico pelo ID.
+        /// </summary>
+        /// <param name="id">ID do cliente</param>
+        /// <returns>Cliente encontrado</returns>
+        /// <response code="200">Cliente retornado com sucesso</response>
+        /// <response code="404">Cliente não encontrado</response>
+        /// <response code="500">Erro interno ao buscar cliente</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
@@ -49,7 +61,15 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Clientes
+        /// <summary>
+        /// Cadastra um novo cliente.
+        /// </summary>
+        /// <param name="cliente">Objeto cliente a ser cadastrado</param>
+        /// <returns>Cliente criado</returns>
+        /// <response code="201">Cliente criado com sucesso</response>
+        /// <response code="400">Dados inválidos</response>
+        /// <response code="409">Conflito: CPF ou e-mail já existe</response>
+        /// <response code="500">Erro interno ao salvar cliente</response>
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
@@ -58,7 +78,6 @@ namespace API.Controllers
 
             try
             {
-                // Verifica se CPF ou e-mail já existem
                 var cpfOuEmailExistem = await _context.Clientes
                     .AnyAsync(c => c.CPF == cliente.CPF || c.Email == cliente.Email);
 
@@ -80,7 +99,17 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Clientes/{id}
+        /// <summary>
+        /// Atualiza um cliente existente pelo ID.
+        /// </summary>
+        /// <param name="id">ID do cliente</param>
+        /// <param name="cliente">Objeto cliente com dados atualizados</param>
+        /// <returns>NoContent se atualizado</returns>
+        /// <response code="204">Atualizado com sucesso</response>
+        /// <response code="400">ID inválido ou dados incorretos</response>
+        /// <response code="404">Cliente não encontrado</response>
+        /// <response code="409">Conflito: CPF ou e-mail duplicado</response>
+        /// <response code="500">Erro interno ao atualizar cliente</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
@@ -96,7 +125,6 @@ namespace API.Controllers
                 if (clienteExistente == null)
                     return NotFound("Cliente não encontrado.");
 
-                // Verifica duplicidade de CPF e e-mail em outros clientes
                 var duplicado = await _context.Clientes
                     .AnyAsync(c => (c.CPF == cliente.CPF || c.Email == cliente.Email) && c.Id != id);
 
@@ -114,7 +142,13 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Clientes/{id}
+        /// <summary>
+        /// Exclui um cliente pelo ID.
+        /// </summary>
+        /// <param name="id">ID do cliente</param>
+        /// <response code="204">Cliente excluído com sucesso</response>
+        /// <response code="404">Cliente não encontrado</response>
+        /// <response code="500">Erro interno ao excluir cliente</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {

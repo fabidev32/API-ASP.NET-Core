@@ -1,0 +1,424 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "API-Trabalho-Pratico",
+    "version": "1.0"
+  },
+  "paths": {
+    "/clientes": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cliente"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/veiculos": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veiculo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/funcionarios": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Funcionario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fabricantes": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fabricante"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fabricante"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/alugueis": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aluguel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Aluguel": {
+        "required": [
+          "clienteId",
+          "dataFim",
+          "dataInicio",
+          "funcionarioId",
+          "veiculoId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "clienteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "veiculoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "funcionarioId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cliente": {
+            "$ref": "#/components/schemas/Cliente"
+          },
+          "veiculo": {
+            "$ref": "#/components/schemas/Veiculo"
+          },
+          "funcionario": {
+            "$ref": "#/components/schemas/Funcionario"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataFim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataDevolucao": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "kmInicial": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "kmFinal": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "valorDiaria": {
+            "minimum": 0,01,
+            "type": "number",
+            "format": "double"
+          },
+          "valorTotal": {
+            "minimum": 0,01,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Cliente": {
+        "required": [
+          "cpf",
+          "email",
+          "nome"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "cpf": {
+            "maxLength": 11,
+            "minLength": 11,
+            "pattern": "^\\d{11}$",
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Fabricante": {
+        "required": [
+          "nome"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Funcionario": {
+        "required": [
+          "cargo",
+          "cpf",
+          "email",
+          "nome"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "cpf": {
+            "maxLength": 11,
+            "minLength": 11,
+            "pattern": "^\\d{11}$",
+            "type": "string"
+          },
+          "cargo": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Veiculo": {
+        "required": [
+          "fabricanteId",
+          "modelo",
+          "placa"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modelo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "ano": {
+            "maximum": 2100,
+            "minimum": 1886,
+            "type": "integer",
+            "format": "int32"
+          },
+          "quilometragem": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "placa": {
+            "maxLength": 8,
+            "minLength": 0,
+            "pattern": "^[A-Z]{3}-?\\d{4}$|^[A-Z]{3}\\d[A-Z]\\d{2}$",
+            "type": "string"
+          },
+          "fabricanteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fabricante": {
+            "$ref": "#/components/schemas/Fabricante"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

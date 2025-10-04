@@ -15,7 +15,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Alugueis
+        /// <summary>
+        /// Retorna todos os aluguéis cadastrados.
+        /// </summary>
+        /// <returns>Lista de aluguéis com cliente, veículo e funcionário</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
+        /// <response code="500">Erro interno ao buscar aluguéis</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Aluguel>>> GetAlugueis()
         {
@@ -35,7 +40,14 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/Alugueis/{id}
+        /// <summary>
+        /// Retorna um aluguel específico pelo ID.
+        /// </summary>
+        /// <param name="id">ID do aluguel</param>
+        /// <returns>Aluguel com cliente, veículo e funcionário</returns>
+        /// <response code="200">Aluguel encontrado com sucesso</response>
+        /// <response code="404">Aluguel não encontrado</response>
+        /// <response code="500">Erro interno ao buscar aluguel</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<Aluguel>> GetAluguel(int id)
         {
@@ -58,7 +70,15 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Alugueis
+        /// <summary>
+        /// Cadastra um novo aluguel.
+        /// </summary>
+        /// <param name="aluguel">Objeto aluguel a ser cadastrado</param>
+        /// <returns>Aluguel criado</returns>
+        /// <response code="201">Aluguel criado com sucesso</response>
+        /// <response code="400">Dados inválidos</response>
+        /// <response code="409">Conflito: veículo já alugado nesse período</response>
+        /// <response code="500">Erro interno ao salvar aluguel</response>
         [HttpPost]
         public async Task<ActionResult<Aluguel>> PostAluguel(Aluguel aluguel)
         {
@@ -67,7 +87,6 @@ namespace API.Controllers
 
             try
             {
-                // Verifica se o veículo já está alugado nesse período
                 bool conflito = await _context.Alugueis.AnyAsync(a =>
                     a.VeiculoId == aluguel.VeiculoId &&
                     a.DataFim >= aluguel.DataInicio &&
@@ -76,7 +95,6 @@ namespace API.Controllers
                 if (conflito)
                     return Conflict("Este veículo já está alugado nesse período.");
 
-                // Cálculo automático (opcional)
                 var dias = (aluguel.DataFim - aluguel.DataInicio).TotalDays;
                 if (dias > 0)
                     aluguel.ValorTotal = aluguel.ValorDiaria * (decimal)dias;
@@ -96,7 +114,17 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Alugueis/{id}
+        /// <summary>
+        /// Atualiza um aluguel existente pelo ID.
+        /// </summary>
+        /// <param name="id">ID do aluguel</param>
+        /// <param name="aluguel">Objeto aluguel com dados atualizados</param>
+        /// <returns>NoContent se atualizado</returns>
+        /// <response code="204">Atualizado com sucesso</response>
+        /// <response code="400">ID inválido ou dados incorretos</response>
+        /// <response code="404">Aluguel não encontrado</response>
+        /// <response code="409">Conflito: veículo já alugado nesse período</response>
+        /// <response code="500">Erro interno ao atualizar</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAluguel(int id, Aluguel aluguel)
         {
@@ -112,7 +140,6 @@ namespace API.Controllers
                 if (aluguelExistente == null)
                     return NotFound("Aluguel não encontrado.");
 
-                // Verifica conflito com outros aluguéis
                 bool conflito = await _context.Alugueis.AnyAsync(a =>
                     a.VeiculoId == aluguel.VeiculoId &&
                     a.Id != id &&
@@ -122,7 +149,6 @@ namespace API.Controllers
                 if (conflito)
                     return Conflict("Este veículo já está alugado nesse período.");
 
-                // Atualiza valores
                 _context.Entry(aluguelExistente).CurrentValues.SetValues(aluguel);
                 await _context.SaveChangesAsync();
 
@@ -134,7 +160,13 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Alugueis/{id}
+        /// <summary>
+        /// Exclui um aluguel pelo ID.
+        /// </summary>
+        /// <param name="id">ID do aluguel</param>
+        /// <response code="204">Aluguel excluído com sucesso</response>
+        /// <response code="404">Aluguel não encontrado</response>
+        /// <response code="500">Erro interno ao excluir</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAluguel(int id)
         {
@@ -155,7 +187,10 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/alugueis/detalhes -> alugueis detalhados com cliente e veículo
+        /// <summary>
+        /// Retorna alugueis detalhados com cliente e veículo.
+        /// </summary>
+        /// <returns>Lista com nome do cliente, modelo do veículo e datas do aluguel</returns>
         [HttpGet("detalhes")]
         public async Task<ActionResult<IEnumerable<object>>> GetAlugueisDetalhados()
         {
@@ -174,7 +209,13 @@ namespace API.Controllers
             return Ok(alugueis);
         }
 
-        // GET: api/alugueis/filtro?cliente=Maria&inicio=2024-01-01&fim=2024-12-31 => alugueis por cliente e intervalo de datas
+        /// <summary>
+        /// Filtra alugueis por cliente e intervalo de datas.
+        /// </summary>
+        /// <param name="cliente">Nome parcial ou completo do cliente</param>
+        /// <param name="inicio">Data de início do período</param>
+        /// <param name="fim">Data de fim do período</param>
+        /// <returns>Lista de aluguéis filtrados</returns>
         [HttpGet("filtro")]
         public async Task<ActionResult<IEnumerable<object>>> GetAlugueisPorPeriodo(
             [FromQuery] string cliente, [FromQuery] DateTime inicio, [FromQuery] DateTime fim)
@@ -194,7 +235,5 @@ namespace API.Controllers
 
             return Ok(alugueis);
         }
-
-
     }
 }

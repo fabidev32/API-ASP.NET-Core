@@ -15,7 +15,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Veiculos
+        /// <summary>
+        /// Retorna todos os veículos cadastrados.
+        /// </summary>
+        /// <returns>Lista de veículos com informações do fabricante</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
+        /// <response code="500">Erro interno ao buscar veículos</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Veiculo>>> GetVeiculos()
         {
@@ -33,7 +38,14 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/Veiculos/{id}
+        /// <summary>
+        /// Retorna um veículo pelo ID.
+        /// </summary>
+        /// <param name="id">ID do veículo</param>
+        /// <returns>Veículo com informações do fabricante</returns>
+        /// <response code="200">Veículo encontrado</response>
+        /// <response code="404">Veículo não encontrado</response>
+        /// <response code="500">Erro ao buscar veículo</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<Veiculo>> GetVeiculo(int id)
         {
@@ -54,7 +66,15 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Veiculos
+        /// <summary>
+        /// Cadastra um novo veículo.
+        /// </summary>
+        /// <param name="veiculo">Objeto veículo a ser cadastrado</param>
+        /// <returns>Veículo criado</returns>
+        /// <response code="201">Veículo criado com sucesso</response>
+        /// <response code="400">Dados inválidos ou fabricante não existe</response>
+        /// <response code="409">Veículo com mesma placa já existe</response>
+        /// <response code="500">Erro interno ao salvar veículo</response>
         [HttpPost]
         public async Task<ActionResult<Veiculo>> PostVeiculo(Veiculo veiculo)
         {
@@ -63,12 +83,10 @@ namespace API.Controllers
 
             try
             {
-                // Verifica se o fabricante informado existe
                 var fabricanteExiste = await _context.Fabricantes.AnyAsync(f => f.Id == veiculo.FabricanteId);
                 if (!fabricanteExiste)
                     return BadRequest("Fabricante informado não existe.");
 
-                // Evita veículos duplicados (por exemplo, pela placa)
                 var existe = await _context.Veiculos.AnyAsync(v => v.Placa == veiculo.Placa);
                 if (existe)
                     return Conflict("Já existe um veículo cadastrado com essa placa.");
@@ -88,7 +106,15 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Veiculos/{id}
+        /// <summary>
+        /// Atualiza um veículo existente.
+        /// </summary>
+        /// <param name="id">ID do veículo</param>
+        /// <param name="veiculo">Objeto veículo atualizado</param>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="400">ID não corresponde ou fabricante não existe</response>
+        /// <response code="404">Veículo não encontrado</response>
+        /// <response code="500">Erro ao atualizar veículo</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVeiculo(int id, Veiculo veiculo)
         {
@@ -100,7 +126,6 @@ namespace API.Controllers
 
             try
             {
-                // Verifica se o fabricante informado existe
                 var fabricanteExiste = await _context.Fabricantes.AnyAsync(f => f.Id == veiculo.FabricanteId);
                 if (!fabricanteExiste)
                     return BadRequest("Fabricante informado não existe.");
@@ -114,7 +139,6 @@ namespace API.Controllers
             {
                 if (!await _context.Veiculos.AnyAsync(v => v.Id == id))
                     return NotFound("Veículo não encontrado.");
-
                 throw;
             }
             catch (Exception ex)
@@ -123,7 +147,13 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Veiculos/{id}
+        /// <summary>
+        /// Exclui um veículo pelo ID.
+        /// </summary>
+        /// <param name="id">ID do veículo</param>
+        /// <response code="204">Veículo excluído com sucesso</response>
+        /// <response code="404">Veículo não encontrado</response>
+        /// <response code="500">Erro ao excluir veículo</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVeiculo(int id)
         {
@@ -144,7 +174,12 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/veiculos/fabricante/{nomeFabricante} - veículo por fabricante 
+        /// <summary>
+        /// Retorna veículos filtrados pelo nome do fabricante.
+        /// </summary>
+        /// <param name="nomeFabricante">Nome do fabricante</param>
+        /// <returns>Lista de veículos com informações do fabricante</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
         [HttpGet("fabricante/{nomeFabricante}")]
         public async Task<ActionResult<IEnumerable<object>>> GetVeiculosPorFabricante(string nomeFabricante)
         {
@@ -162,6 +197,5 @@ namespace API.Controllers
 
             return Ok(veiculos);
         }
-
     }
 }

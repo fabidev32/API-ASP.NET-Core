@@ -166,3 +166,10 @@ C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Prat
 C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\obj\Debug\net8.0\API-Trabalho-Pratico.genruntimeconfig.cache
 C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\obj\Debug\net8.0\ref\API-Trabalho-Pratico.dll
 C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\obj\Debug\net8.0\API-Trabalho-Pratico.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\bin\Debug\net8.0\API-Trabalho-Pratico.xml
+C:\Users\lirod\Desktop\Back-End\C#\PraticaApi\Trabalho-Pratico\API-Trabalho-Pratico\API-Trabalho-Pratico\obj\Debug\net8.0\API-Trabalho-Pratico.xml

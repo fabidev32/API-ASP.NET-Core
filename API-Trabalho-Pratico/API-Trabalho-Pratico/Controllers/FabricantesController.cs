@@ -15,7 +15,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Fabricantes
+        /// <summary>
+        /// Retorna todos os fabricantes cadastrados.
+        /// </summary>
+        /// <returns>Lista de fabricantes</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
+        /// <response code="500">Erro interno ao buscar fabricantes</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Fabricante>>> GetFabricantes()
         {
@@ -30,11 +35,18 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Fabricantes
+        /// <summary>
+        /// Cadastra um novo fabricante.
+        /// </summary>
+        /// <param name="fabricante">Objeto fabricante a ser cadastrado</param>
+        /// <returns>Fabricante criado</returns>
+        /// <response code="201">Fabricante criado com sucesso</response>
+        /// <response code="400">Dados inválidos</response>
+        /// <response code="409">Conflito: fabricante com mesmo nome já existe</response>
+        /// <response code="500">Erro interno ao salvar fabricante</response>
         [HttpPost]
         public async Task<ActionResult<Fabricante>> PostFabricante(Fabricante fabricante)
         {
-            // Validação dos dados enviados no corpo da requisição
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -59,7 +71,11 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/fabricantes/veiculos => fabricantes com seus veículos (incluindo os que não tem)
+        /// <summary>
+        /// Retorna todos os fabricantes com seus veículos (incluindo os fabricantes que não possuem veículos).
+        /// </summary>
+        /// <returns>Lista de fabricantes com veículos</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
         [HttpGet("veiculos")]
         public async Task<ActionResult<IEnumerable<object>>> GetFabricantesComVeiculos()
         {
@@ -74,6 +90,5 @@ namespace API.Controllers
 
             return Ok(fabricantes);
         }
-
     }
 }

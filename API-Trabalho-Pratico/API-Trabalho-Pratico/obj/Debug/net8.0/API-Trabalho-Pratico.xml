@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API-Trabalho-Pratico</name>
+    </assembly>
+    <members>
+        <member name="M:API.Controllers.AlugueisController.GetAlugueis">
+            <summary>
+            Retorna todos os aluguéis cadastrados.
+            </summary>
+            <returns>Lista de aluguéis com cliente, veículo e funcionário</returns>
+            <response code="200">Lista retornada com sucesso</response>
+            <response code="500">Erro interno ao buscar aluguéis</response>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.GetAluguel(System.Int32)">
+            <summary>
+            Retorna um aluguel específico pelo ID.
+            </summary>
+            <param name="id">ID do aluguel</param>
+            <returns>Aluguel com cliente, veículo e funcionário</returns>
+            <response code="200">Aluguel encontrado com sucesso</response>
+            <response code="404">Aluguel não encontrado</response>
+            <response code="500">Erro interno ao buscar aluguel</response>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.PostAluguel(API_Trabalho_Pratico.Aluguel)">
+            <summary>
+            Cadastra um novo aluguel.
+            </summary>
+            <param name="aluguel">Objeto aluguel a ser cadastrado</param>
+            <returns>Aluguel criado</returns>
+            <response code="201">Aluguel criado com sucesso</response>
+            <response code="400">Dados inválidos</response>
+            <response code="409">Conflito: veículo já alugado nesse período</response>
+            <response code="500">Erro interno ao salvar aluguel</response>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.PutAluguel(System.Int32,API_Trabalho_Pratico.Aluguel)">
+            <summary>
+            Atualiza um aluguel existente pelo ID.
+            </summary>
+            <param name="id">ID do aluguel</param>
+            <param name="aluguel">Objeto aluguel com dados atualizados</param>
+            <returns>NoContent se atualizado</returns>
+            <response code="204">Atualizado com sucesso</response>
+            <response code="400">ID inválido ou dados incorretos</response>
+            <response code="404">Aluguel não encontrado</response>
+            <response code="409">Conflito: veículo já alugado nesse período</response>
+            <response code="500">Erro interno ao atualizar</response>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.DeleteAluguel(System.Int32)">
+            <summary>
+            Exclui um aluguel pelo ID.
+            </summary>
+            <param name="id">ID do aluguel</param>
+            <response code="204">Aluguel excluído com sucesso</response>
+            <response code="404">Aluguel não encontrado</response>
+            <response code="500">Erro interno ao excluir</response>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.GetAlugueisDetalhados">
+            <summary>
+            Retorna alugueis detalhados com cliente e veículo.
+            </summary>
+            <returns>Lista com nome do cliente, modelo do veículo e datas do aluguel</returns>
+        </member>
+        <member name="M:API.Controllers.AlugueisController.GetAlugueisPorPeriodo(System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Filtra alugueis por cliente e intervalo de datas.
+            </summary>
+            <param name="cliente">Nome parcial ou completo do cliente</param>
+            <param name="inicio">Data de início do período</param>
+            <param name="fim">Data de fim do período</param>
+            <returns>Lista de aluguéis filtrados</returns>
+        </member>
+        <member name="M:API.Controllers.ClientesController.GetClientes">
+            <summary>
+            Retorna todos os clientes cadastrados.
+            </summary>
+            <returns>Lista de clientes</returns>
+            <response code="200">Lista retornada com sucesso</response>
+            <response code="500">Erro interno ao buscar clientes</response>
+        </member>
+        <member name="M:API.Controllers.ClientesController.GetCliente(System.Int32)">
+            <summary>
+            Retorna um cliente específico pelo ID.
+            </summary>
+            <param name="id">ID do cliente</param>
+            <returns>Cliente encontrado</returns>
+            <response code="200">Cliente retornado com sucesso</response>
+            <response code="404">Cliente não encontrado</response>
+            <response code="500">Erro interno ao buscar cliente</response>
+        </member>
+        <member name="M:API.Controllers.ClientesController.PostCliente(API_Trabalho_Pratico.Cliente)">
+            <summary>
+            Cadastra um novo cliente.
+            </summary>
+            <param name="cliente">Objeto cliente a ser cadastrado</param>
+            <returns>Cliente criado</returns>
+            <response code="201">Cliente criado com sucesso</response>
+            <response code="400">Dados inválidos</response>
+            <response code="409">Conflito: CPF ou e-mail já existe</response>
+            <response code="500">Erro interno ao salvar cliente</response>
+        </member>
+        <member name="M:API.Controllers.ClientesController.PutCliente(System.Int32,API_Trabalho_Pratico.Cliente)">
+            <summary>
+            Atualiza um cliente existente pelo ID.
+            </summary>
+            <param name="id">ID do cliente</param>
+            <param name="cliente">Objeto cliente com dados atualizados</param>
+            <returns>NoContent se atualizado</returns>
+            <response code="204">Atualizado com sucesso</response>
+            <response code="400">ID inválido ou dados incorretos</response>
+            <response code="404">Cliente não encontrado</response>
+            <response code="409">Conflito: CPF ou e-mail duplicado</response>
+            <response code="500">Erro interno ao atualizar cliente</response>
+        </member>
+        <member name="M:API.Controllers.ClientesController.DeleteCliente(System.Int32)">
+            <summary>
+            Exclui um cliente pelo ID.
+            </summary>
+            <param name="id">ID do cliente</param>
+            <response code="204">Cliente excluído com sucesso</response>
+            <response code="404">Cliente não encontrado</response>
+            <response code="500">Erro interno ao excluir cliente</response>
+        </member>
+        <member name="M:API.Controllers.FabricantesController.GetFabricantes">
+            <summary>
+            Retorna todos os fabricantes cadastrados.
+            </summary>
+            <returns>Lista de fabricantes</returns>
+            <response code="200">Lista retornada com sucesso</response>
+            <response code="500">Erro interno ao buscar fabricantes</response>
+        </member>
+        <member name="M:API.Controllers.FabricantesController.PostFabricante(API_Trabalho_Pratico.Fabricante)">
+            <summary>
+            Cadastra um novo fabricante.
+            </summary>
+            <param name="fabricante">Objeto fabricante a ser cadastrado</param>
+            <returns>Fabricante criado</returns>
+            <response code="201">Fabricante criado com sucesso</response>
+            <response code="400">Dados inválidos</response>
+            <response code="409">Conflito: fabricante com mesmo nome já existe</response>
+            <response code="500">Erro interno ao salvar fabricante</response>
+        </member>
+        <member name="M:API.Controllers.FabricantesController.GetFabricantesComVeiculos">
+            <summary>
+            Retorna todos os fabricantes com seus veículos (incluindo os fabricantes que não possuem veículos).
+            </summary>
+            <returns>Lista de fabricantes com veículos</returns>
+            <response code="200">Lista retornada com sucesso</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.GetFuncionarios">
+            <summary>
+            Retorna todos os funcionários cadastrados.
+            </summary>
+            <returns>Lista de funcionários</returns>
+            <response code="200">Lista retornada com sucesso</response>
+            <response code="500">Erro interno ao buscar funcionários</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.GetFuncionario(System.Int32)">
+            <summary>
+            Retorna um funcionário pelo ID.
+            </summary>
+            <param name="id">ID do funcionário</param>
+            <returns>Objeto funcionário</returns>
+            <response code="200">Funcionário encontrado</response>
+            <response code="404">Funcionário não encontrado</response>
+            <response code="500">Erro interno ao buscar funcionário</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.PostFuncionario(API_Trabalho_Pratico.Funcionario)">
+            <summary>
+            Cadastra um novo funcionário.
+            </summary>
+            <param name="funcionario">Objeto funcionário a ser cadastrado</param>
+            <returns>Funcionário criado</returns>
+            <response code="201">Funcionário criado com sucesso</response>
+            <response code="400">Dados inválidos</response>
+            <response code="409">Funcionário com mesmo CPF já existe</response>
+            <response code="500">Erro interno ao salvar funcionário</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.PutFuncionario(System.Int32,API_Trabalho_Pratico.Funcionario)">
+            <summary>
+            Atualiza um funcionário existente.
+            </summary>
+            <param name="id">ID do funcionário</param>
+            <param name="funcionario">Objeto funcionário atualizado</param>
+            <response code="204">Atualização realizada com sucesso</response>
+            <response code="400">ID não corresponde ou dados inválidos</response>
+            <response code="404">Funcionário não encontrado</response>
+            <response code="500">Erro ao atualizar funcionário</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.DeleteFuncionario(System.Int32)">
+            <summary>
+            Exclui um funcionário pelo ID.
+            </summary>
+            <param name="id">ID do funcionário</param>
+            <response code="204">Funcionário excluído com sucesso</response>
+            <response code="404">Funcionário não encontrado</response>
+            <response code="500">Erro ao excluir funcionário</response>
+        </member>
+        <member name="M:API.Controllers.FuncionariosController.GetFuncionariosComAlugueis">
+            <summary>
+            Retorna funcionários que possuem aluguéis registrados.
+            </summary>
+            <returns>Lista de funcionários com quantidade de aluguéis</returns>
+            <response code="200">Lista retornada com sucesso</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.GetVeiculos">
+            <summary>
+            Retorna todos os veículos cadastrados.
+            </summary>
+            <returns>Lista de veículos com informações do fabricante</returns>
+            <response code="200">Lista retornada com sucesso</response>
+            <response code="500">Erro interno ao buscar veículos</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.GetVeiculo(System.Int32)">
+            <summary>
+            Retorna um veículo pelo ID.
+            </summary>
+            <param name="id">ID do veículo</param>
+            <returns>Veículo com informações do fabricante</returns>
+            <response code="200">Veículo encontrado</response>
+            <response code="404">Veículo não encontrado</response>
+            <response code="500">Erro ao buscar veículo</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.PostVeiculo(API_Trabalho_Pratico.Veiculo)">
+            <summary>
+            Cadastra um novo veículo.
+            </summary>
+            <param name="veiculo">Objeto veículo a ser cadastrado</param>
+            <returns>Veículo criado</returns>
+            <response code="201">Veículo criado com sucesso</response>
+            <response code="400">Dados inválidos ou fabricante não existe</response>
+            <response code="409">Veículo com mesma placa já existe</response>
+            <response code="500">Erro interno ao salvar veículo</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.PutVeiculo(System.Int32,API_Trabalho_Pratico.Veiculo)">
+            <summary>
+            Atualiza um veículo existente.
+            </summary>
+            <param name="id">ID do veículo</param>
+            <param name="veiculo">Objeto veículo atualizado</param>
+            <response code="204">Atualização realizada com sucesso</response>
+            <response code="400">ID não corresponde ou fabricante não existe</response>
+            <response code="404">Veículo não encontrado</response>
+            <response code="500">Erro ao atualizar veículo</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.DeleteVeiculo(System.Int32)">
+            <summary>
+            Exclui um veículo pelo ID.
+            </summary>
+            <param name="id">ID do veículo</param>
+            <response code="204">Veículo excluído com sucesso</response>
+            <response code="404">Veículo não encontrado</response>
+            <response code="500">Erro ao excluir veículo</response>
+        </member>
+        <member name="M:API.Controllers.VeiculosController.GetVeiculosPorFabricante(System.String)">
+            <summary>
+            Retorna veículos filtrados pelo nome do fabricante.
+            </summary>
+            <param name="nomeFabricante">Nome do fabricante</param>
+            <returns>Lista de veículos com informações do fabricante</returns>
+            <response code="200">Lista retornada com sucesso</response>
+        </member>
+        <member name="T:API_Trabalho_Pratico.Migrations.NomeDaMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.NomeDaMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.NomeDaMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.NomeDaMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API_Trabalho_Pratico.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API_Trabalho_Pratico.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

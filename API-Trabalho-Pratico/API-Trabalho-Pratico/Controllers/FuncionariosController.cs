@@ -15,7 +15,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Funcionarios
+        /// <summary>
+        /// Retorna todos os funcionários cadastrados.
+        /// </summary>
+        /// <returns>Lista de funcionários</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
+        /// <response code="500">Erro interno ao buscar funcionários</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Funcionario>>> GetFuncionarios()
         {
@@ -30,7 +35,14 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/Funcionarios/{id}
+        /// <summary>
+        /// Retorna um funcionário pelo ID.
+        /// </summary>
+        /// <param name="id">ID do funcionário</param>
+        /// <returns>Objeto funcionário</returns>
+        /// <response code="200">Funcionário encontrado</response>
+        /// <response code="404">Funcionário não encontrado</response>
+        /// <response code="500">Erro interno ao buscar funcionário</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<Funcionario>> GetFuncionario(int id)
         {
@@ -48,7 +60,15 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Funcionarios
+        /// <summary>
+        /// Cadastra um novo funcionário.
+        /// </summary>
+        /// <param name="funcionario">Objeto funcionário a ser cadastrado</param>
+        /// <returns>Funcionário criado</returns>
+        /// <response code="201">Funcionário criado com sucesso</response>
+        /// <response code="400">Dados inválidos</response>
+        /// <response code="409">Funcionário com mesmo CPF já existe</response>
+        /// <response code="500">Erro interno ao salvar funcionário</response>
         [HttpPost]
         public async Task<ActionResult<Funcionario>> PostFuncionario(Funcionario funcionario)
         {
@@ -57,10 +77,7 @@ namespace API.Controllers
 
             try
             {
-                // Evita duplicidade de CPF, caso exista esse campo
-                var existe = await _context.Funcionarios
-                    .AnyAsync(f => f.CPF == funcionario.CPF);
-
+                var existe = await _context.Funcionarios.AnyAsync(f => f.CPF == funcionario.CPF);
                 if (existe)
                     return Conflict("Já existe um funcionário com este CPF.");
 
@@ -79,7 +96,15 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Funcionarios/{id}
+        /// <summary>
+        /// Atualiza um funcionário existente.
+        /// </summary>
+        /// <param name="id">ID do funcionário</param>
+        /// <param name="funcionario">Objeto funcionário atualizado</param>
+        /// <response code="204">Atualização realizada com sucesso</response>
+        /// <response code="400">ID não corresponde ou dados inválidos</response>
+        /// <response code="404">Funcionário não encontrado</response>
+        /// <response code="500">Erro ao atualizar funcionário</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFuncionario(int id, Funcionario funcionario)
         {
@@ -107,7 +132,13 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Funcionarios/{id}
+        /// <summary>
+        /// Exclui um funcionário pelo ID.
+        /// </summary>
+        /// <param name="id">ID do funcionário</param>
+        /// <response code="204">Funcionário excluído com sucesso</response>
+        /// <response code="404">Funcionário não encontrado</response>
+        /// <response code="500">Erro ao excluir funcionário</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFuncionario(int id)
         {
@@ -127,7 +158,11 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/funcionarios/com-alugueis -> funcionários com aluguéis registrados 
+        /// <summary>
+        /// Retorna funcionários que possuem aluguéis registrados.
+        /// </summary>
+        /// <returns>Lista de funcionários com quantidade de aluguéis</returns>
+        /// <response code="200">Lista retornada com sucesso</response>
         [HttpGet("com-alugueis")]
         public async Task<ActionResult<IEnumerable<object>>> GetFuncionariosComAlugueis()
         {
@@ -143,6 +178,5 @@ namespace API.Controllers
 
             return Ok(funcionarios);
         }
-
     }
 }
