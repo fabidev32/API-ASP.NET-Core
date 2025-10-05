@@ -5,6 +5,340 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Alugueis": {
+      "get": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Retorna todos os aluguéis cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aluguel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aluguel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aluguel"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar aluguéis"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Cadastra um novo aluguel.",
+        "requestBody": {
+          "description": "Objeto aluguel a ser cadastrado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Aluguel criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "409": {
+            "description": "Conflito: veículo já alugado nesse período"
+          },
+          "500": {
+            "description": "Erro interno ao salvar aluguel"
+          }
+        }
+      }
+    },
+    "/api/Alugueis/{id}": {
+      "get": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Retorna um aluguel específico pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do aluguel",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aluguel encontrado com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluguel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluguel não encontrado"
+          },
+          "500": {
+            "description": "Erro interno ao buscar aluguel"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Atualiza um aluguel existente pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do aluguel",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto aluguel com dados atualizados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluguel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Atualizado com sucesso"
+          },
+          "400": {
+            "description": "ID inválido ou dados incorretos"
+          },
+          "404": {
+            "description": "Aluguel não encontrado"
+          },
+          "409": {
+            "description": "Conflito: veículo já alugado nesse período"
+          },
+          "500": {
+            "description": "Erro interno ao atualizar"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Exclui um aluguel pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do aluguel",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Aluguel excluído com sucesso"
+          },
+          "404": {
+            "description": "Aluguel não encontrado"
+          },
+          "500": {
+            "description": "Erro interno ao excluir"
+          }
+        }
+      }
+    },
+    "/api/Alugueis/detalhes": {
+      "get": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Retorna alugueis detalhados com cliente e veículo.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Alugueis/filtro": {
+      "get": {
+        "tags": [
+          "Alugueis"
+        ],
+        "summary": "Filtra alugueis por cliente e intervalo de datas.",
+        "parameters": [
+          {
+            "name": "cliente",
+            "in": "query",
+            "description": "Nome parcial ou completo do cliente",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "inicio",
+            "in": "query",
+            "description": "Data de início do período",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fim",
+            "in": "query",
+            "description": "Data de fim do período",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clientes": {
       "get": {
         "tags": [
@@ -47,48 +381,6 @@
         }
       }
     },
-    "/veiculos": {
-      "get": {
-        "tags": [
-          "API-Trabalho-Pratico"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Veiculo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "API-Trabalho-Pratico"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Veiculo"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/funcionarios": {
       "get": {
         "tags": [
@@ -119,6 +411,48 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Funcionario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/veiculos": {
+      "get": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veiculo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API-Trabalho-Pratico"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
               }
             }
           },
@@ -211,6 +545,932 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Clientes": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Retorna todos os clientes cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cliente"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cliente"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cliente"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar clientes"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Cadastra um novo cliente.",
+        "requestBody": {
+          "description": "Objeto cliente a ser cadastrado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Cliente criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "409": {
+            "description": "Conflito: CPF ou e-mail já existe"
+          },
+          "500": {
+            "description": "Erro interno ao salvar cliente"
+          }
+        }
+      }
+    },
+    "/api/Clientes/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Retorna um cliente específico pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do cliente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente retornado com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro interno ao buscar cliente"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualiza um cliente existente pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do cliente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto cliente com dados atualizados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Atualizado com sucesso"
+          },
+          "400": {
+            "description": "ID inválido ou dados incorretos"
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "409": {
+            "description": "Conflito: CPF ou e-mail duplicado"
+          },
+          "500": {
+            "description": "Erro interno ao atualizar cliente"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Exclui um cliente pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do cliente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Cliente excluído com sucesso"
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro interno ao excluir cliente"
+          }
+        }
+      }
+    },
+    "/api/Fabricantes": {
+      "get": {
+        "tags": [
+          "Fabricantes"
+        ],
+        "summary": "Retorna todos os fabricantes cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fabricante"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fabricante"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fabricante"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar fabricantes"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Fabricantes"
+        ],
+        "summary": "Cadastra um novo fabricante.",
+        "requestBody": {
+          "description": "Objeto fabricante a ser cadastrado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fabricante"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fabricante"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fabricante"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fabricante"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fabricante"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fabricante"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Fabricante criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "409": {
+            "description": "Conflito: fabricante com mesmo nome já existe"
+          },
+          "500": {
+            "description": "Erro interno ao salvar fabricante"
+          }
+        }
+      }
+    },
+    "/api/Fabricantes/veiculos": {
+      "get": {
+        "tags": [
+          "Fabricantes"
+        ],
+        "summary": "Retorna todos os fabricantes com seus veículos (incluindo os fabricantes que não possuem veículos).",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Funcionarios": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Retorna todos os funcionários cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Funcionario"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Funcionario"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Funcionario"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar funcionários"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Cadastra um novo funcionário.",
+        "requestBody": {
+          "description": "Objeto funcionário a ser cadastrado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Funcionário criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "409": {
+            "description": "Funcionário com mesmo CPF já existe"
+          },
+          "500": {
+            "description": "Erro interno ao salvar funcionário"
+          }
+        }
+      }
+    },
+    "/api/Funcionarios/{id}": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Retorna um funcionário pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do funcionário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Funcionário encontrado",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Funcionario"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Funcionário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno ao buscar funcionário"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Atualiza um funcionário existente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do funcionário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto funcionário atualizado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Funcionario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "400": {
+            "description": "ID não corresponde ou dados inválidos"
+          },
+          "404": {
+            "description": "Funcionário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar funcionário"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Exclui um funcionário pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do funcionário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Funcionário excluído com sucesso"
+          },
+          "404": {
+            "description": "Funcionário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao excluir funcionário"
+          }
+        }
+      }
+    },
+    "/api/Funcionarios/com-alugueis": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "summary": "Retorna funcionários que possuem aluguéis registrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Veiculos": {
+      "get": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Retorna todos os veículos cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veiculo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veiculo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veiculo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar veículos"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Cadastra um novo veículo.",
+        "requestBody": {
+          "description": "Objeto veículo a ser cadastrado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Veículo criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos ou fabricante não existe"
+          },
+          "409": {
+            "description": "Veículo com mesma placa já existe"
+          },
+          "500": {
+            "description": "Erro interno ao salvar veículo"
+          }
+        }
+      }
+    },
+    "/api/Veiculos/{id}": {
+      "get": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Retorna um veículo pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do veículo",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Veículo encontrado",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veiculo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Veículo não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar veículo"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Atualiza um veículo existente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do veículo",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto veículo atualizado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veiculo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "400": {
+            "description": "ID não corresponde ou fabricante não existe"
+          },
+          "404": {
+            "description": "Veículo não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar veículo"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Exclui um veículo pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do veículo",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Veículo excluído com sucesso"
+          },
+          "404": {
+            "description": "Veículo não encontrado"
+          },
+          "500": {
+            "description": "Erro ao excluir veículo"
+          }
+        }
+      }
+    },
+    "/api/Veiculos/fabricante/{nomeFabricante}": {
+      "get": {
+        "tags": [
+          "Veiculos"
+        ],
+        "summary": "Retorna veículos filtrados pelo nome do fabricante.",
+        "parameters": [
+          {
+            "name": "nomeFabricante",
+            "in": "path",
+            "description": "Nome do fabricante",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
           }
         }
       }

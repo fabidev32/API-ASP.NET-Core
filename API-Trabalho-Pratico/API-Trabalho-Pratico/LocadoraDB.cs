@@ -21,7 +21,6 @@ namespace API_Trabalho_Pratico
             }
         }
 
-        //garante que o funcionário seja único
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -148,7 +148,6 @@ namespace API_Trabalho_Pratico
         public decimal ValorTotal { get; set; }
     }
 
-    // Validação customizada para DataFim > DataInicio
     public class DateGreaterThanAttribute : ValidationAttribute
     {
         private readonly string _comparisonProperty;
@@ -177,7 +176,6 @@ namespace API_Trabalho_Pratico
         }
     }
 
-    // Validação customizada para KmFinal >= KmInicial
     public class GreaterThanOrEqualToAttribute : ValidationAttribute
     {
         private readonly string _comparisonProperty;
